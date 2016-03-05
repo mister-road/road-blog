@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load django_markdown %}
+
+{% block blog_entries %}
+{% for post in post_list %}
+  <div class="post">
+    <h2><a href="{% url "entry_detail" slug=post.slug %}">{{ post.title }}</a></h2>
+  <p class="post-meta">
+  {{ post.date_created }} {% if post.nickname %} by {{ post.nickname }} {% endif %}
+  </p>
+  <div class="post-content">
+      {{ post.body_html|safe }}
+  </div>
+    Tagged: {% for tag in post.tags.all %}<a class="post-category post-category-js" href="{% url "tag_index" slug=tag.slug %}">{{ tag }} </a>{% endfor %}
+  </div>
+{% endfor %}
+{% endblock %}
